@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from restaurant import input_restaurant
 from order_file import write_file, read_file
+from today_restaurant import write_restaurant_file, read_restaurant_file
 
 restaurant_data = []
 total_order = {}
@@ -111,6 +112,7 @@ async def decide(ctx, *arg):
         await ctx.send(today_restaurant['name'] + '\n電話: ' + today_restaurant['tel']
                             + '\n地址: ' + today_restaurant['address'] +
                             "\n-------------------------------")
+        write_restaurant_file(today_restaurant)
     else:
         await ctx.send('error message')
 
@@ -118,7 +120,9 @@ async def decide(ctx, *arg):
 
 
 if __name__ == '__main__':
+
     restaurant_data = input_restaurant()
     total_order = read_file()
-    print(total_order)
+    today_restaurant = read_restaurant_file()
+    print(today_restaurant)
     bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.XntqyA.vlDzpJSe3hHENz5fGkRH9ScJ9DQ")

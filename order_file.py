@@ -1,7 +1,7 @@
 import json
 import time
 
-localtime = time.asctime( time.localtime(time.time()) )
+localtime = time.asctime( time.localtime(time.time()))
 filename = time.strftime("%Y-%m-%d", time.localtime())
 def write_file(data):
     ret = json.dumps(data)
