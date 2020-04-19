@@ -1,8 +1,10 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands,tasks
 from restaurant import input_restaurant
 from order_file import write_file, read_file
 from today_restaurant import write_restaurant_file, read_restaurant_file
+import time
+import threading
 
 restaurant_data = []
 total_order = {}
@@ -11,15 +13,19 @@ bot = commands.Bot(command_prefix="/")
 today_restaurant = {}
 
 
+
 @bot.event
 async def on_ready():
     print(">> Bot is online << ")
+   # await channel.send('Hello', file=discord.File('cool.png', 'testing.png'))
+
 
 @bot.event
 async def on_member_join(member):
     print(F'{member} join!')
     channel = bot.get_channel(692384983314333719)
     await channel.send(F'{member} join')
+    await channel.send('You can type "//help" and then will see all commands.')
     #await channel.send('Hello', file=discord.File('cool.png', 'testing.png'))
 
 @bot.event
@@ -52,27 +58,14 @@ async def view(ctx, *arg):
         ctx.send('error argument!!!!')
 
 @bot.command()
-async def order(ctx, *arg):
+async def order(ctx, *arg):#人 餐 錢
     if(len(arg) == 0):
-        author = str(ctx.author)
-        total_order.pop(author)
-        await ctx.send('cancel your order')
+        await ctx.send('error arugment')
     else:
-        author = str(ctx.author)
-        order = list(arg)
-        total_order[author] = order
-        write_file(total_order)
-        print(total_order)
-
-@bot.command()
-async def add_order(ctx, *arg):
-    if(len(arg) == 0):
-        await ctx.send('No order can be added.')
-    else:
-        author = str(ctx.author)
-        order = total_order[author]
-        for item in arg:
-            order.append(item)
+        author = str(arg[0])
+        order = []
+        order.append(str(arg[1]))
+        order.append(str(arg[2]))
         total_order[author] = order
         write_file(total_order)
         print(total_order)
@@ -115,9 +108,6 @@ async def decide(ctx, *arg):
         write_restaurant_file(today_restaurant)
     else:
         await ctx.send('error message')
-
-
-
 
 if __name__ == '__main__':
 
