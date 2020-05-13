@@ -4,7 +4,7 @@ from restaurant import input_restaurant
 from order_file import write_file, read_file
 from today_restaurant import write_restaurant_file, read_restaurant_file
 import time
-import threading
+import asyncio
 
 restaurant_data = []
 total_order = {}
@@ -109,10 +109,22 @@ async def decide(ctx, *arg):
     else:
         await ctx.send('error message')
 
+def timer():
+    localtime = time.strftime("%H:%M", time.localtime())
+    if(localtime == "16:19"):
+        return True
+
+async def timing_system():
+    await bot.wait_until_ready()
+    channel = bot.get_channel(692384983314333719)
+    if(timer()):
+        await channel.send("昼食を注文する時が来ました")
+        await asyncio.sleep(60)
+
 if __name__ == '__main__':
 
     restaurant_data = input_restaurant()
     total_order = read_file()
     today_restaurant = read_restaurant_file()
-    print(today_restaurant)
-    bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.XntqyA.vlDzpJSe3hHENz5fGkRH9ScJ9DQ")
+    bot.loop.create_task(timing_system())
+    bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.Xqox6A.bk6i0a7DjhfS-WamBUM_1pNI_ok")
