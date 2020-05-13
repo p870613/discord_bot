@@ -9,7 +9,7 @@ import asyncio
 restaurant_data = []
 total_order = {}
 bot = commands.Bot(command_prefix="/")
-
+bot.remove_command('help')
 today_restaurant = {}
 
 
@@ -109,6 +109,10 @@ async def decide(ctx, *arg):
     else:
         await ctx.send('error message')
 
+@bot.command()
+async def help(ctx):
+    await ctx.send('Hello', file=discord.File('bot/help.png'))
+
 def timer():
     localtime = time.strftime("%H:%M", time.localtime())
     if(localtime == "16:19"):
@@ -127,4 +131,4 @@ if __name__ == '__main__':
     total_order = read_file()
     today_restaurant = read_restaurant_file()
     bot.loop.create_task(timing_system())
-    bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.Xqox6A.bk6i0a7DjhfS-WamBUM_1pNI_ok")
+    bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.Xruwfw.D7G4x2UuIgtdM-o8x3No5l1IocM")
