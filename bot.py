@@ -17,7 +17,6 @@ today_restaurant = {}
 @bot.event
 async def on_ready():
     print(">> Bot is online << ")
-   # await channel.send('Hello', file=discord.File('cool.png', 'testing.png'))
 
 
 @bot.event
@@ -26,7 +25,6 @@ async def on_member_join(member):
     channel = bot.get_channel(692384983314333719)
     await channel.send(F'{member} join')
     await channel.send('You can type "//help" and then will see all commands.')
-    #await channel.send('Hello', file=discord.File('cool.png', 'testing.png'))
 
 @bot.event
 async def on_member_remove(member):
@@ -34,9 +32,7 @@ async def on_member_remove(member):
     channel = bot.get_channel(692384983314333719)
     await channel.send(F'{member} leave')
 
-@bot.command()
-async def today_eat(ctx, arg):
-    await ctx.send(arg)
+
 
 @bot.command()
 async def view(ctx, *arg):
@@ -59,7 +55,7 @@ async def view(ctx, *arg):
 
 @bot.command()
 async def order(ctx, *arg):#人 餐 錢
-    if(len(arg) == 0):
+    if(len(arg) == 0 or len(arg) == 1):
         await ctx.send('error arugment')
     else:
         author = str(arg[0])
@@ -106,6 +102,8 @@ async def decide(ctx, *arg):
                             + '\n地址: ' + today_restaurant['address'] +
                             "\n-------------------------------")
         write_restaurant_file(today_restaurant)
+        if(today_restaurant['picture_path'] != ''):
+            await ctx.send('菜單', file=discord.File(today_restaurant['picture_path']))
     else:
         await ctx.send('error message')
 
@@ -115,7 +113,7 @@ async def help(ctx):
 
 def timer():
     localtime = time.strftime("%H:%M", time.localtime())
-    if(localtime == "16:19"):
+    if(localtime == "10:00"):
         return True
 
 async def timing_system():
@@ -126,9 +124,8 @@ async def timing_system():
         await asyncio.sleep(60)
 
 if __name__ == '__main__':
-
     restaurant_data = input_restaurant()
     total_order = read_file()
     today_restaurant = read_restaurant_file()
     bot.loop.create_task(timing_system())
-    bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.Xruwfw.D7G4x2UuIgtdM-o8x3No5l1IocM")
+    bot.run("NjkyMzc5MzM0NDEzMTIzNTg0.Xs4rIA.funZqy8G36MGnaCrtRcdQohBahI")
